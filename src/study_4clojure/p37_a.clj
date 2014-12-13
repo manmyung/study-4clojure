@@ -4,4 +4,6 @@
 ;;
 ;; Use M-x 4clojure-check-answers when you're done!
 
-(= __ (apply str (re-seq #"[A-Z]+" "bA1B3Ce ")))
+(= "ABC" (apply str (re-seq #"[A-Z]+" "bA1B3Ce ")))
+
+(re-seq #"[A-Z]+" "bA1B3Ce ") ;("A" "B" "C")
