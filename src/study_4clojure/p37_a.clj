@@ -6,4 +6,4 @@
 
 (= "ABC" (apply str (re-seq #"[A-Z]+" "bA1B3Ce ")))
 
-(re-seq #"[A-Z]+" "bA1B3Ce ") ;("A" "B" "C")
+(re-seq #"[A-Z]+" "bA1B3Ce ") ;=> ("A" "B" "C")
