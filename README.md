@@ -15,7 +15,7 @@
   (interactive)
   (let ((num (read-from-minibuffer "Which 4clojure question? "))
         (file-path "~/project/study-4clojure/src/study_4clojure/")
-		(log-path "~/project/study-4clojure/problem_difficulty.md"))
+		(log-path "~/project/study-4clojure/problem_order.md"))
     (4clojure/start-new-problem num)
     (write-file (concat file-path "p" num "_q.clj"))
     (write-file (concat file-path "p" num "_a.clj"))
