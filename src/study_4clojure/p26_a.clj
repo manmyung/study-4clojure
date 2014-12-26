@@ -34,3 +34,8 @@
      (fn [n]
        (take n (map last (iterate (fn [[f s]] [s (+ f s)]) [0 1])))) 3)
    '(1 1 2))
+
+;4clojure에는 이런 풀이도 있다.Programming Clojure 책에서 지연 시퀀스를 이용하는 방법과 동일. 기억해둘만하다. 책 발췌한다. "map 과 iterate가 지연 시퀀스를 반환하기 때문에 map과 iterate로 짜여진 fibo역시 지연 시퀀스를 반환하게 된다. 또한 fibo는 지금까지 살펴본 피보나치 수열의 구현가눙데 가장 짧고도 간단하다". 내생각: 이 문제에 대해서는 iterate 과 lazy-seq 버전의 크기는 거의 같다. 그런데 나에겐 iterate가 약간 더 쉽다. 더 구체적이라 그런 것 같다.
+#(take % ((fn fib [x y] (lazy-seq (cons x (fib y (+ x y))))) 1 1))
+
+
