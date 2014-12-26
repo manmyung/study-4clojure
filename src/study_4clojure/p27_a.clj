@@ -16,4 +16,4 @@
 
 (false? (__ '(:a :b :c)))
 
-((reverse "racecar")
+(reverse "racecar")
