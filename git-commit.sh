@@ -1,3 +1,4 @@
 git add .
-git commit -am '~p'$1
+commit_msg="~p$1"
+git commit -am $commit_msg
 git push
