@@ -11,7 +11,7 @@
   (interactive)
   (let ((num (read-from-minibuffer "Which 4clojure question? "))
         (file-path "~/project/study-4clojure/src/study_4clojure/")
-		(log-path "~/project/study-4clojure/problem_order.md"))
+		(log-path "~/project/study-4clojure/log.md"))
     (4clojure/start-new-problem num)
     (write-file (concat file-path "p" num ".clj"))
     (append-to-file (concat " " num) nil log-path) ;추가한 순서를 기록. 필요없으면 주석 처리하세요.
@@ -19,4 +19,7 @@
 ```
 
 ## 문제 풀기
-편리한 에디터로 p*.clj를 편집하여 문제 풀고 저장. 나의 경우 IntelliJ의 Cursive 플러그인 사용함.
+편리한 에디터로 p*.clj를 편집하여 문제 풀고 저장.
+
+## 문제 푼 순서
+log.md 파일에 있음.
