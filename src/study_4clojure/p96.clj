@@ -57,6 +57,20 @@
     (symmetric? (second %) (last %)))
   '(:a (:b nil nil) (:b nil nil)))
 
+;이것처럼 내부 함수를 정의하고 외부에서는 바로 대입하는 경우 fn만 사용할 수도 있다.
+(
+#((fn symmetric? [a b]
+    (print a b)
+    (if (and (coll? a) (coll? b))
+      (let [[a1 a2 a3] a
+            [b1 b2 b3] b]
+        (print a1 a2 a3 b1 b2 b3)
+        (and (= a1 b1)
+             (symmetric? a2 b3)
+             (symmetric? a3 b2)))
+      (= a b)))
+  (second %) (last %))
+'(:a nil nil))
 
 ;이전
 #(letfn [(_symm [x y]
@@ -104,5 +118,5 @@
          true))
       a b))
   '(1 nil [1 nil nil])) ;=> false. 빈틈이 없어짐.
-;1. true/false 전략에서는 chouser에서 (or c f) 부분 보완한 게 끝판왕.
+;1. true/false 전략에서는 chouser에서 (or c f)로 바꾼 게 끝판왕.
 ;2. reverse해서 현재와 비교하는 전략으로는 max가 끝판왕.
