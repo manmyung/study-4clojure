@@ -25,7 +25,7 @@
 ;이전
 (fn [x & y] (reduce #((first %2) %1 (last %2)) (conj (partition 2 y) x)))
 
-;hypirion. deconstructuring 기억해둘만 하다.
+;hypirion. destructuring 기억해둘만 하다.
 (fn [a & r]
   (reduce
     (fn [a [op b]] (op a b))

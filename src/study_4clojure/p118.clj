@@ -39,7 +39,7 @@
     []
     (cons (f (first col)) (lazy-seq (_map f (rest col))))))
 
-;max. 여기서 배울 점 deconstructuring.
+;max. 여기서 배울 점 destructuring.
 (fn m [f [h & t :as v]]
   (if (empty? v)
     ()
