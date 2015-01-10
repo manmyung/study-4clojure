@@ -21,3 +21,32 @@
 (= (range 13) (map (comp :rank __ str)
                    '[S2 S3 S4 S5 S6 S7
                      S8 S9 ST SJ SQ SK SA]))
+
+
+(
+(fn [x]
+  {:suit ({\D :diamond \H :heart \C :club \S :spade} (first x))
+   :rank ({\2 0 \3 1 \4 2 \5 3 \6 4 \7 5 \8 6 \9 7 \T 8 \J 9 \Q 10 \K 11 \A 12} (second x))})
+"DQ")
+
+;지금
+(fn [x]
+  {:suit ({\D :diamond \H :heart \C :club \S :spade} (first x))
+   :rank ({\2 0 \3 1 \4 2 \5 3 \6 4 \7 5 \8 6 \9 7 \T 8 \J 9 \Q 10 \K 11 \A 12} (second x))})
+
+;이전
+#(hash-map
+  :suit ({\S :spade \H :heart \D :diamond \C :club} (first %))
+  :rank ({\2 0 \3 1 \4 2 \5 3 \6 4 \7 5 \8 6 \9 7 \T 8 \J 9 \Q 10 \K 11 \A 12} (last %)))
+
+;max는 이 와중에서 deconstructing을 잘 썼군.
+(fn [[s r]]
+  (let [rs {\2 0 \3 1  \4 2
+            \5 3 \6 4  \7 5
+            \8 6 \9 7  \T 8
+            \J 9 \Q 10 \K 11 \A 12}
+
+        ds {\S :spade   \H :heart
+            \D :diamond \C :club}]
+
+    {:suit (ds s) :rank (rs r)}))
