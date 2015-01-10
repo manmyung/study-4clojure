@@ -13,3 +13,14 @@
 (= (take 2 (__ [3 1 2])) [[3 1 2] [3 4 3 2]])
 
 (= (take 100 (__ [2 4 2])) (rest (take 101 (__ [2 2]))))
+
+;지금. p97에서 가져와서 +'만 바꿨.
+iterate #(vec (map +' (concat [0] %) (concat % [0])))
+
+;이전
+(fn [col]
+  ((fn _iterate [f x] (cons x (lazy-seq (_iterate f (f x)))))
+    #(map +' (concat [0] %) (concat % [0])) col))
+
+;max `[0 ~@%] 기억할만 하다.
+(fn [s] (iterate  #(map + `[0 ~@%] `[~@% 0]) s))
