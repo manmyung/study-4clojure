@@ -80,9 +80,10 @@
     #{:a :b}
     #{:a}})
 
-;지금. chouser와 답이 같네ㅎ
+;지금. p146에서 배운 for을 사용.
 #(let [l (for [a % b a] b)]
   (= (count l) (count (set l))))
+;chouser와 답이 같네ㅎ
 
 ;이전
 (fn [a]
