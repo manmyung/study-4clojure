@@ -80,7 +80,7 @@
     #{:a :b}
     #{:a}})
 
-;지금. p146에서 배운 for을 사용.
+;지금. p146에서 배운 for를 사용.
 #(let [l (for [a % b a] b)]
   (= (count l) (count (set l))))
 ;chouser와 답이 같네ㅎ
