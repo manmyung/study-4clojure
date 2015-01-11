@@ -25,3 +25,30 @@
 
 (= (__ '{m {1 [a b c] 3 nil}})
    '{[m 1] [a b c], [m 3] nil})
+
+(first
+(second
+(first '{a {p 1, q 2}
+         b {m 3, n 4}})))
+
+(let [[k v] (first '{a {p 1, q 2}
+                 b {m 3, n 4}})]
+  (into {}
+        (map (fn [[a b]]
+                  {[k a] b}) v)))
+
+;지금
+#(into {}
+      (mapcat (fn [[k v]]
+                (map (fn [[a b]]
+                       {[k a] b}) v)) %))
+
+;이전
+(fn [m]
+  (into {}
+        (mapcat (fn [x y] (map #(vector (vector x (first %)) (last %)) y))
+                (keys m) (vals m))))
+
+;max.
+#(into {} (for [[i j] % [k l] j] [[i k] l]))
+;이렇게 간단하기 때문에 for가 문제에 나와있었구나. for는 하나를 풀어헤치고, 풀어헤친 그것을 다시 풀어해칠때 매우 편리하다!
