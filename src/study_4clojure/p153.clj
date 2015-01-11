@@ -70,3 +70,37 @@
          #{(do) set contains? nil?}
          #{, , , #_, , empty?}})
    false)
+
+(
+#(let [l (for [a % b a] b)]
+  (= (count l) (count (set l))))
+  #{#{:a :b :c :d :e}
+    #{:a :b :c :d}
+    #{:a :b :c}
+    #{:a :b}
+    #{:a}})
+
+;지금. chouser와 답이 같네ㅎ
+#(let [l (for [a % b a] b)]
+  (= (count l) (count (set l))))
+
+;이전
+(fn [a]
+  (every? empty?
+          (for [x a
+                y a]
+            (if (= x y)
+              #{}
+              (clojure.set/intersection x y)))))
+
+;max
+#(apply distinct? (mapcat seq %))
+
+(mapcat seq #{#{:a :b :c :d :e}
+              #{:a :b :c :d}
+              #{:a :b :c}
+              #{:a :b}
+              #{:a}})
+;=> (:c :b :a :e :c :b :d :a :c :b :d :a :b :a :a)
+;distinct? := "Returns true if no two of the arguments are ="
+;max는 distinct?를 많이 사용해 봤기때문에 이런 답을 떠올렸을 것이다.
