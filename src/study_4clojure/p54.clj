@@ -22,4 +22,4 @@
 (fn p [n x]
   (if (>= (count x) n)
     (cons (take n x) (p n (drop n x))))
-(cons '(0 1 2) nil) ;=> ((0 1 2)). 이야 cons에 nil을 붙이면 빈리스트에 붙이는 것과 같은 효과를 이용. 대단.
+(cons '(0 1 2) nil) ;=> ((0 1 2)). 이야 cons에 nil을 붙이면 빈리스트에 붙이는 것과 같은 효과를 이용. 대단. 아. lazy-seq 사용할 때 많이 나오는 패턴이구나.
