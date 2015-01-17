@@ -40,3 +40,5 @@
   ([f a [x & s]]
     (lazy-seq
       (cons a (if x (g f (f a x) s))))))
+
+;참고 p62, p
