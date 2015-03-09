@@ -1262,6 +1262,8 @@ reduce #(if ((set %1) %2) %1 (conj %1 %2)) []
                        :else
                (recur (dec l) (inc r))))))))
 
+;다른 solution 좋은 것 많아 보이는데 연구는 나중으로 미룸.
+
 ;; 4Clojure Question 121
 ;;
 ;; 	 Given a mathematical formula in prefix notation, return a function that calculates

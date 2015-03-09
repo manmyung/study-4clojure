@@ -26,3 +26,5 @@
                (or lp rp) false
                        :else
                (recur (dec l) (inc r))))))))
+
+;다른 solution 좋은 것 많아 보이는데 연구는 나중으로 미룸.
