@@ -21,3 +21,18 @@
 
 (= (__ 2 #{[1 2 3] :a "abc" "efg"}) #{#{[1 2 3] :a} #{[1 2 3] "abc"} #{[1 2 3] "efg"}
                                     #{:a "abc"} #{:a "efg"} #{"abc" "efg"}})
+
+;me. p85 이용했다.
+(fn [n s]
+  (set (filter #(= n (count %))
+               (reduce
+                 (fn [a b]
+                   (into a (map #(conj % b) a)))
+                 #{#{}} s))))
+
+;max
+(fn [n s]
+  (loop [n n a #{#{}}]
+    (if (> n 0)
+      (recur (dec n) (set (for [x a y s :when (not (x y))] (conj x y))))
+      a)))
