@@ -1218,6 +1218,21 @@ reduce #(if ((set %1) %2) %1 (conj %1 %2)) []
 (= (__ 2 #{[1 2 3] :a "abc" "efg"}) #{#{[1 2 3] :a} #{[1 2 3] "abc"} #{[1 2 3] "efg"}
                                     #{:a "abc"} #{:a "efg"} #{"abc" "efg"}})
 
+;me. p85 이용했다.
+(fn [n s]
+  (set (filter #(= n (count %))
+               (reduce
+                 (fn [a b]
+                   (into a (map #(conj % b) a)))
+                 #{#{}} s))))
+
+;max
+(fn [n s]
+  (loop [n n a #{#{}}]
+    (if (> n 0)
+      (recur (dec n) (set (for [x a y s :when (not (x y))] (conj x y))))
+      a)))
+
 ;; 4Clojure Question 116
 ;;
 ;; A <a href="http://en.wikipedia.org/wiki/Balanced_prime">balanced prime</a> is a prime number which is also the mean of the primes directly before and after it in the sequence of valid primes.  Create a function which takes an integer n, and returns true iff it is a balanced prime.
