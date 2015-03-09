@@ -1245,6 +1245,23 @@ reduce #(if ((set %1) %2) %1 (conj %1 %2)) []
 
 (= 1103 (nth (filter __ (range)) 15))
 
+;me
+(fn [x]
+  (letfn [(is-prime? [k]
+                     (not (some #(zero? (rem k %))
+                                (range 2 k))))]
+    (and (is-prime? x)
+         (>= x 2)
+         (loop [l (dec x) r (inc x)]
+           (let [lp (is-prime? l)
+                 rp (is-prime? r)]
+             (cond
+               (= l 1) false
+               (and lp rp) true
+               (or lp rp) false
+                       :else
+               (recur (dec l) (inc r))))))))
+
 ;; 4Clojure Question 121
 ;;
 ;; 	 Given a mathematical formula in prefix notation, return a function that calculates
