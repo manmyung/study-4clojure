@@ -18,8 +18,11 @@
     ))
 ```
 
-## 문제 풀기
-편리한 에디터로 p*.clj를 편집하여 문제 풀고 저장.
+## 문제 푼 결과
+src/study_4clojure/p*.clj
+
+## 문제 푼 결과를 Difficulty 별로 합친 것
+src/elementary.clj, src/easy.clj, src/medium.clj
 
 ## 문제 푼 순서
-log.md 파일에 있음.
+log.md
