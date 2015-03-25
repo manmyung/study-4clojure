@@ -232,3 +232,158 @@
 ;norman: for 사용법이 재밌다.[(각 요소 of %2) %1]의 요소를 갖는 리스트를 만들었음.
 #(into {} (for [key %2] [key %1]))
 (for [key [:a :b :c]] [key 0]) ;=> ([:a 0] [:b 0] [:c 0])
+
+;; 4Clojure Question 2
+;;
+;; <p>If you are not familiar with <a href='http://en.wikipedia.org/wiki/Polish_notation'>polish notation</a>, simple arithmetic might seem confusing.</p><p><strong>Note:</strong> Enter only enough to fill in the blank (in this case, a single number) - do not retype the whole problem.</p>
+;;
+;; Use M-x 4clojure-check-answers when you're done!
+
+(= (- 10 (* 2 3)) __)
+
+(= (- 10 (* 2 3)) 4)
+
+;; 4Clojure Question 4
+;;
+;; Lists can be constructed with either a function or a quoted form.
+;;
+;; Use M-x 4clojure-check-answers when you're done!
+
+(= (list __) '(:a :b :c))
+
+(= (list :a :b :c) '(:a :b :c))
+
+;; 4Clojure Question 5
+;;
+;; <p>When operating on a list, the conj function will return a new list with one or more items "added" to the front.</p>
+;;
+;; <p>Note that there are two test cases, but you are expected to supply only one answer, which will cause all the tests to pass.</p>
+;;
+;; Use M-x 4clojure-check-answers when you're done!
+
+(= __ (conj '(2 3 4) 1))
+
+(= __ (conj '(3 4) 2 1))
+
+;me. 답들을 보니 [] 도 있고 '() 도 있다.
+(= [1 2 3 4] (conj '(2 3 4) 1))
+
+(= [1 2 3 4] (conj '(3 4) 2 1))
+
+
+
+;; 4Clojure Question 7
+;;
+;; When operating on a Vector, the conj function will return a new vector with one or more items "added" to the end.
+;;
+;; Use M-x 4clojure-check-answers when you're done!
+
+(= __ (conj [1 2 3] 4))
+
+(= __ (conj [1 2] 3 4))
+
+;me
+(= [1 2 3 4] (conj [1 2 3] 4))
+
+(= [1 2 3 4] (conj [1 2] 3 4))
+
+
+;; 4Clojure Question 8
+;;
+;; Sets are collections of unique values.
+;;
+;; Use M-x 4clojure-check-answers when you're done!
+
+(= __ (set '(:a :a :b :c :c :c :c :d :d)))
+
+(= __ (clojure.set/union #{:a :b :c} #{:b :c :d}))
+
+;me
+(= #{:a :b :c :d} (set '(:a :a :b :c :c :c :c :d :d)))
+
+(= #{:a :b :c :d} (clojure.set/union #{:a :b :c} #{:b :c :d}))
+
+;; 4Clojure Question 9
+;;
+;; When operating on a set, the conj function returns a new set with one or more keys "added".
+;;
+;; Use M-x 4clojure-check-answers when you're done!
+
+(= #{1 2 3 4} (conj #{1 4 3} __))
+
+;; 4Clojure Question 10
+;;
+;; Maps store key-value pairs.  Both maps and keywords can be used as lookup functions. Commas can be used to make maps more readable, but they are not required.
+;;
+;; Use M-x 4clojure-check-answers when you're done!
+
+(= __ ((hash-map :a 10, :b 20, :c 30) :b))
+
+(= __ (:b {:a 10, :b 20, :c 30}))
+
+;me. array-map 이든 hash-map 이든 인자가 리스트 형식이 아니라 하나씩 들어간다.
+(= 20 ((hash-map :a 10, :b 20, :c 30) :b))
+
+(= 20 (:b {:a 10, :b 20, :c 30}))
+
+;; 4Clojure Question 12
+;;
+;; All Clojure collections support sequencing.  You can operate on sequences with functions like first, second, and last.
+;;
+;; Use M-x 4clojure-check-answers when you're done!
+
+(= __ (first '(3 2 1)))
+
+(= __ (second [2 3 4]))
+
+(= __ (last (list 1 2 3)))
+
+;me
+(= 3 (first '(3 2 1)))
+
+(= 3 (second [2 3 4]))
+
+(= 3 (last (list 1 2 3)))
+
+;; 4Clojure Question 15
+;;
+;; Write a function which doubles a number.
+;;
+;; Use M-x 4clojure-check-answers when you're done!
+
+(= (__ 2) 4)
+
+(= (__ 3) 6)
+
+(= (__ 11) 22)
+
+(= (__ 7) 14)
+
+;me
+(= (* 2 2) 4)
+
+;; 4Clojure Question 16
+;;
+;; Write a function which returns a personalized greeting.
+;;
+;; Use M-x 4clojure-check-answers when you're done!
+
+(= (__ "Dave") "Hello, Dave!")
+
+(= (__ "Jenn") "Hello, Jenn!")
+
+(= (__ "Rhea") "Hello, Rhea!")
+
+;me
+(= (#(str "Hello, " % "!") "Dave") "Hello, Dave!")
+
+;; 4Clojure Question 18
+;;
+;; The filter function takes two arguments: a predicate function (f) and a sequence (s).  Filter returns a new sequence consisting of all the items of s for which (f item) returns true.
+;;
+;; Use M-x 4clojure-check-answers when you're done!
+
+(= __ (filter #(> % 5) '(3 4 5 6 7)))
+
+;me
+(= [6 7] (filter #(> % 5) '(3 4 5 6 7)))
