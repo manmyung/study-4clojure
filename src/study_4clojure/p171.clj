@@ -20,3 +20,20 @@
   (reduce #(if (= (last (last %1)) (dec %2))
             (assoc-in %1 [(dec (count %1)) 1] %2)
             (into %1 [[%2 %2]])) [] (sort (set col))))
+
+;max. 이해가 바로는 안가지만 나중을 위해 적어둔다.
+#(map vector (% %2 dec) (% %2 inc))
+#(reduce (fn [a b] (if ((set %) (%2 b)) a (conj a b))) [] (sort (set %)))
+
+;chouser. 나와 논리가 같다. clojure 사용방법이 다름.
+#(->> % distinct sort
+      (reduce
+        (fn [[[l h] & im] x] ; =>이렇게 분해하는 것도 봐두자.
+          (if (= x (+ 1 h))
+            (cons [l x] im) ;=> 앞쪽에다 붙였군
+            (list* [x x] [l h] im))) ;=> list*는 "원소, 원소, ..., sequence" 구나
+        [[0 -1]])
+      reverse
+      rest)
+;set 대신 distinct를 쓸 수도 있겠군.
+(distinct [1 2 1]) ;=> (1 2)
