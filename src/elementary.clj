@@ -24,8 +24,16 @@
 ;;
 ;; Use M-x 4clojure-check-answers when you're done!
 
+(= [__] (list :a :b :c) (vec '(:a :b :c)) (vector :a :b :c))
+
 ;리스트와 벡터는 = 에서 같다고 판단하는 구나.
 (= '(:a :b :c) (list :a :b :c) (vec '(:a :b :c)) (vector :a :b :c))
+
+(seq '(:a :b :c))
+
+(list :a :b :c)
+
+()
 
 
 ;; 4Clojure Question 11
@@ -135,6 +143,13 @@
 ;;
 ;; Use M-x 4clojure-check-answers when you're done!
 
+(true?  (__ :a {:a nil :b 2}))
+
+(false? (__ :b {:a nil :b 2}))
+
+(false? (__ :c {:a nil :b 2}))
+
+;me
 (true?  (#(and (contains? %2 %1) (nil? (%1 %2))) :a {:a nil :b 2}))
 
 (false? (#(and (contains? %2 %1) (nil? (%1 %2))) :b {:a nil :b 2}))
@@ -303,6 +318,7 @@
 
 (= #{:a :b :c :d} (clojure.set/union #{:a :b :c} #{:b :c :d}))
 
+
 ;; 4Clojure Question 9
 ;;
 ;; When operating on a set, the conj function returns a new set with one or more keys "added".
@@ -310,6 +326,8 @@
 ;; Use M-x 4clojure-check-answers when you're done!
 
 (= #{1 2 3 4} (conj #{1 4 3} __))
+
+(conj #{1 4 3} 2)
 
 ;; 4Clojure Question 10
 ;;

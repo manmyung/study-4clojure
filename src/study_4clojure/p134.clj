@@ -4,6 +4,13 @@
 ;;
 ;; Use M-x 4clojure-check-answers when you're done!
 
+(true?  (__ :a {:a nil :b 2}))
+
+(false? (__ :b {:a nil :b 2}))
+
+(false? (__ :c {:a nil :b 2}))
+
+;me
 (true?  (#(and (contains? %2 %1) (nil? (%1 %2))) :a {:a nil :b 2}))
 
 (false? (#(and (contains? %2 %1) (nil? (%1 %2))) :b {:a nil :b 2}))
