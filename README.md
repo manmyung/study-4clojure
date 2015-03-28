@@ -18,11 +18,10 @@
     ))
 ```
 
-## 문제 푼 결과
+## 문제 풀이 결과
 src/study_4clojure/p*.clj
 
-## 문제 푼 결과를 Difficulty 별로 합친 것
-src/elementary.clj, src/easy.clj, src/medium.clj
+풀이를 Difficulty 별로 합친 것: src/elementary.clj, src/easy.clj, src/medium.clj
 
-## 문제 푼 순서
+## 문제 풀이 순서
 log.md
