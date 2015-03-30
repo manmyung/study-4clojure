@@ -6,7 +6,7 @@
 ;;
 ;; Use M-x 4clojure-check-answers when you're done!
 
-(= [3 2 1] (((fn [& fs] (fn [& vs] (reduce (fn [v f] (f v)) (apply (last fs) vs) (rest (reverse fs))))) rest reverse) [1 2 3 4]))
+(= [3 2 1] ((__ rest reverse) [1 2 3 4]))
 
 (= 5 ((__ (partial + 3) second) [1 2 3 4]))
 

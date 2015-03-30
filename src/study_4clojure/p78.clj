@@ -9,11 +9,7 @@
 (= (letfn [(triple [x] #(sub-two (* 3 x)))
           (sub-two [x] #(stop?(- x 2)))
           (stop? [x] (if (> x 50) x #(triple x)))]
-    ((fn [f a]
-       (let [r (f a)]
-         (if (fn? r)
-           (r)
-           r))) triple 2))
+    (__ triple 2))
   82)
 
 (= (letfn [(my-even? [x] (if (zero? x) true #(my-odd? (dec x))))

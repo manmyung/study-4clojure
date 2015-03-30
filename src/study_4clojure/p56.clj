@@ -10,9 +10,9 @@
 
 (= (__ [:a :a :b :b :c :c]) [:a :b :c])
 
-(= (#(apply vector (apply sorted-set %)) '([2 4] [1 2] [1 3] [1 3])) '([2 4] [1 2] [1 3]))
+(= (__ '([2 4] [1 2] [1 3] [1 3])) '([2 4] [1 2] [1 3]))
 
-(= (#(apply vector (set %)) (range 50)) (range 50))
+(= (__ (range 50)) (range 50))
 
 ;처음시도. 틀린답. group-by는 values의 순서는 보장하지만 keys의 순서를 보존하지 않는다.
 #(keys (group-by identity %))

@@ -4,8 +4,7 @@
 ;;
 ;; Use M-x 4clojure-check-answers when you're done!
 
-(= 3 ((#(fn [x y]
-         (% y x)) nth) 2 [1 2 3 4 5]))
+(= 3 ((__ nth) 2 [1 2 3 4 5]))
 
 (= true ((__ >) 7 8))
 

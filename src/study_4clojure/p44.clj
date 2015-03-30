@@ -4,8 +4,7 @@
 ;;
 ;; Use M-x 4clojure-check-answers when you're done!
 
-(= (#(let [i (mod %1 (count %2))]
-      (concat (drop i %2) (take i %2))) 2 [1 2 3 4 5]) '(3 4 5 1 2))
+(= (__ 2 [1 2 3 4 5]) '(3 4 5 1 2))
 
 (= (__ -2 [1 2 3 4 5]) '(4 5 1 2 3))
 

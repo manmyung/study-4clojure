@@ -4,7 +4,7 @@
 ;;
 ;; Use M-x 4clojure-check-answers when you're done!
 
-(= (#(apply map list (partition %2 %)) [1 2 3 4 5 6] 2) '((1 3 5) (2 4 6)))
+(= (__ [1 2 3 4 5 6] 2) '((1 3 5) (2 4 6)))
 
 (= (__ (range 9) 3) '((0 3 6) (1 4 7) (2 5 8)))
 

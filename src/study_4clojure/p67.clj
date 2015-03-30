@@ -6,10 +6,7 @@
 ;;
 ;; Use M-x 4clojure-check-answers when you're done!
 
-(= ((fn [x]
-      (letfn [(is-prime? [n]
-                         (not (some zero? (map #(rem n %) (range 2 n)))))]
-        (take x (filter is-prime? (drop 2 (range)))))) 2) [2 3])
+(= (__ 2) [2 3])
 
 (= (__ 5) [2 3 5 7 11])
 

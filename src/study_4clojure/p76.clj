@@ -4,12 +4,15 @@
 ;;
 ;; Use M-x 4clojure-check-answers when you're done!
 
-(= [1 3 5 7 9 11]
+(= __
    (letfn
      [(foo [x y] #(bar (conj x y) y))
       (bar [x y] (if (> (last x) 10)
                    x
                    #(foo x (+ 2 y))))]
      (trampoline foo [] 1)))
+
+;me
+[1 3 5 7 9 11]
 
 ;trampoline은 함수가 리턴되면 그 함수를 다시 콜한다. 인자가 리턴되면 끝.

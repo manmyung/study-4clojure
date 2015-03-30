@@ -4,11 +4,7 @@
 ;;
 ;; Use M-x 4clojure-check-answers when you're done!
 
-(= (#(apply str
-            (interpose ","
-                       (filter (fn [n] (some (fn [x] (= n (* x x))) (range n)))
-                               (map read-string (clojure.string/split % #",")))))
-     "4,5,6,7,8,9") "4,9")
+(= (__ "4,5,6,7,8,9") "4,9")
 
 (= (__ "15,16,25,36,37") "16,25,36")
 

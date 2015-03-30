@@ -4,8 +4,7 @@
 ;;
 ;; Use M-x 4clojure-check-answers when you're done!
 
-(= 3 ((#(fn [x y]
-         (% y x)) nth) 2 [1 2 3 4 5]))
+(= 3 ((__ nth) 2 [1 2 3 4 5]))
 
 (= true ((__ >) 7 8))
 
@@ -23,8 +22,7 @@
 ;;
 ;; Use M-x 4clojure-check-answers when you're done!
 
-(= (#(let [i (mod %1 (count %2))]
-      (concat (drop i %2) (take i %2))) 2 [1 2 3 4 5]) '(3 4 5 1 2))
+(= (__ 2 [1 2 3 4 5]) '(3 4 5 1 2))
 
 (= (__ -2 [1 2 3 4 5]) '(4 5 1 2 3))
 
@@ -59,7 +57,7 @@
 ;;
 ;; Use M-x 4clojure-check-answers when you're done!
 
-(= (#(apply map list (partition %2 %)) [1 2 3 4 5 6] 2) '((1 3 5) (2 4 6)))
+(= (__ [1 2 3 4 5 6] 2) '((1 3 5) (2 4 6)))
 
 (= (__ (range 9) 3) '((0 3 6) (1 4 7) (2 5 8)))
 
@@ -74,7 +72,7 @@
 ;;
 ;; Use M-x 4clojure-check-answers when you're done!
 
-(= (set (#(vals (group-by type %)) [1 :a 2 :b 3 :c])) #{[1 2 3] [:a :b :c]})
+(= (set (__ [1 :a 2 :b 3 :c])) #{[1 2 3] [:a :b :c]})
 
 (= (set (__ [:a "foo"  "bar" :b])) #{[:a :b] ["foo" "bar"]})
 
@@ -120,9 +118,9 @@ reduce #(assoc % %2 (+ 1 (% %2 0))) {}
 
 (= (__ [:a :a :b :b :c :c]) [:a :b :c])
 
-(= (#(apply vector (apply sorted-set %)) '([2 4] [1 2] [1 3] [1 3])) '([2 4] [1 2] [1 3]))
+(= (__ '([2 4] [1 2] [1 3] [1 3])) '([2 4] [1 2] [1 3]))
 
-(= (#(apply vector (set %)) (range 50)) (range 50))
+(= (__ (range 50)) (range 50))
 
 ;처음시도. 틀린답. group-by는 values의 순서는 보장하지만 keys의 순서를 보존하지 않는다.
 #(keys (group-by identity %))
@@ -146,7 +144,7 @@ reduce #(if ((set %1) %2) %1 (conj %1 %2)) []
 ;;
 ;; Use M-x 4clojure-check-answers when you're done!
 
-(= [3 2 1] (((fn [& fs] (fn [& vs] (reduce (fn [v f] (f v)) (apply (last fs) vs) (rest (reverse fs))))) rest reverse) [1 2 3 4]))
+(= [3 2 1] ((__ rest reverse) [1 2 3 4]))
 
 (= 5 ((__ (partial + 3) second) [1 2 3 4]))
 
@@ -172,7 +170,7 @@ reduce #(if ((set %1) %2) %1 (conj %1 %2)) []
 ;;
 ;; Use M-x 4clojure-check-answers when you're done!
 
-(= [21 6 1] (((fn [& fs] (fn [& vs] (map #(apply % vs) fs))) + max min) 2 3 5 1 6 4))
+(= [21 6 1] ((__ + max min) 2 3 5 1 6 4))
 
 (= ["HELLO" 5] ((__ #(.toUpperCase %) count) "hello"))
 
@@ -240,10 +238,7 @@ reduce #(if ((set %1) %2) %1 (conj %1 %2)) []
 ;;
 ;; Use M-x 4clojure-check-answers when you're done!
 
-(= ((fn [x]
-      (letfn [(is-prime? [n]
-                         (not (some zero? (map #(rem n %) (range 2 n)))))]
-        (take x (filter is-prime? (drop 2 (range)))))) 2) [2 3])
+(= (__ 2) [2 3])
 
 (= (__ 5) [2 3 5 7 11])
 
@@ -280,11 +275,7 @@ reduce #(if ((set %1) %2) %1 (conj %1 %2)) []
 ;;
 ;; Use M-x 4clojure-check-answers when you're done!
 
-(= (#(apply str
-            (interpose ","
-                       (filter (fn [n] (some (fn [x] (= n (* x x))) (range n)))
-                               (map read-string (clojure.string/split % #",")))))
-     "4,5,6,7,8,9") "4,9")
+(= (__ "4,5,6,7,8,9") "4,9")
 
 (= (__ "15,16,25,36,37") "16,25,36")
 
@@ -348,13 +339,16 @@ reduce #(if ((set %1) %2) %1 (conj %1 %2)) []
 ;;
 ;; Use M-x 4clojure-check-answers when you're done!
 
-(= [1 3 5 7 9 11]
+(= __
    (letfn
      [(foo [x y] #(bar (conj x y) y))
       (bar [x y] (if (> (last x) 10)
                    x
                    #(foo x (+ 2 y))))]
      (trampoline foo [] 1)))
+
+;me
+[1 3 5 7 9 11]
 
 ;trampoline은 함수가 리턴되면 그 함수를 다시 콜한다. 인자가 리턴되면 끝.
 
@@ -642,11 +636,7 @@ reduce #(if ((set %1) %2) %1 (conj %1 %2)) []
 (= (letfn [(triple [x] #(sub-two (* 3 x)))
           (sub-two [x] #(stop?(- x 2)))
           (stop? [x] (if (> x 50) x #(triple x)))]
-    ((fn [f a]
-       (let [r (f a)]
-         (if (fn? r)
-           (r)
-           r))) triple 2))
+    (__ triple 2))
   82)
 
 (= (letfn [(my-even? [x] (if (zero? x) true #(my-odd? (dec x))))

@@ -6,7 +6,7 @@
 ;;
 ;; Use M-x 4clojure-check-answers when you're done!
 
-(= [21 6 1] (((fn [& fs] (fn [& vs] (map #(apply % vs) fs))) + max min) 2 3 5 1 6 4))
+(= [21 6 1] ((__ + max min) 2 3 5 1 6 4))
 
 (= ["HELLO" 5] ((__ #(.toUpperCase %) count) "hello"))
 
