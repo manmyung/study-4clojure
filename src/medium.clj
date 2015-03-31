@@ -1710,4 +1710,43 @@ reduce #(if ((set %1) %2) %1 (conj %1 %2)) []
         not
         )))
 
-;4clojure가 현재 다운되어서 답 확인은 로컬에서만 했음.
+;max. 나처럼 re-seq를 안한 점이 좋다. pop, peek도 이번 기회에 배워두면 좋을 듯.
+#(empty?
+  (reduce (fn [a c] (if (#{\( \[ \{} c)
+                      (conj a c)
+                      (if (= ({\) \( \] \[ \} \{} c 0) (peek a))
+                        (pop a)
+                        (if (#{\) \] \}} c)
+                          (conj a c)
+                          a))))
+          [] %))
+;pop은 butlast에 비해 기존 자료구조를 유지하는 구나.
+(pop [1 2 3]) ;=> [1 2]
+(peek [1 2 3]) ;=> 3
+
+;chouser. 이건 seq에서 앞쪽으로 넣으면서 비교했구나. 그러면 [a & m] 인수분해로 앞쪽 찾기 쉽다. 하지만 pop, peek를 사용한 max쪽이 조금 더 쉽다.
+#(not
+  (reduce
+    (fn [[a & m :as p] c]
+      (if-let [r ({\[ \] \{ \} \( \)} c)]
+        (cons r p)
+        (cond
+          (= c a) m
+          (#{\] \} \)} c) %
+          1 p)))
+    nil
+    %))
+
+;daowen. sorted-set, zipmap의 사용을 잘했다.
+;pairs => {\{ \}, \[ \], \( \)}
+(fn check-brackets [in]
+  (let [openers (apply sorted-set "{[(")
+        closers (apply sorted-set "}])")
+        pairs   (zipmap openers closers)]
+    (loop [[c & cs] in, stack []]
+      (cond
+        (nil? c) (empty? stack)
+        (openers c) (recur cs (conj stack (pairs c)))
+        (closers c) (if (= c (peek stack))
+                      (recur cs (pop stack)))
+        :else (recur cs stack)))))
