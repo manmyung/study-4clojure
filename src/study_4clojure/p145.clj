@@ -4,7 +4,7 @@
 ;;
 ;; Use M-x 4clojure-check-answers when you're done!
 
-(= '(1 5 9 13 17 21 25 29 33 37) (for [x (range 40)
+(= __ (for [x (range 40)
             :when (= 1 (rem x 4))]
         x))
 
@@ -16,6 +16,9 @@
 (= __ (for [[x y] (partition 2 (range 20))]
         (+ x y)))
 
+;me
+'(1 5 9 13 17 21 25 29 33 37)
+
 (range 40) ;=> (0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39)
 (for [x (range 40)
       :when (= 1 (rem x 4))]
@@ -23,3 +26,9 @@
 
 ;for에 :when :let :while 등이 사용될 수 있음.
 ;for 소스에 있는 내용 - Supported modifiers are: :let [binding-form expr ...],:while test, :when test.
+
+(for [x (range 40)
+      :when (= 1 (rem x 4))]
+  x)
+
+(iterate #(+ 4 %) 0)

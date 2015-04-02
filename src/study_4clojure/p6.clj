@@ -8,9 +8,3 @@
 
 ;리스트와 벡터는 = 에서 같다고 판단하는 구나.
 (= '(:a :b :c) (list :a :b :c) (vec '(:a :b :c)) (vector :a :b :c))
-
-(seq '(:a :b :c))
-
-(list :a :b :c)
-
-()

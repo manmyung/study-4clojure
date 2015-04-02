@@ -20,3 +20,11 @@
 ;norman: for 사용법이 재밌다.[(각 요소 of %2) %1]의 요소를 갖는 리스트를 만들었음.
 #(into {} (for [key %2] [key %1]))
 (for [key [:a :b :c]] [key 0]) ;=> ([:a 0] [:b 0] [:c 0])
+
+(= (__ 0 [:a :b :c]) {:a 0 :b 0 :c 0})
+
+(fn [a b]
+  (map vector %2 (repeat %1)))
+(into {} (map vector %))
+
+(#(map vector %2 (repeat %1)) 0 [:a :b :c])

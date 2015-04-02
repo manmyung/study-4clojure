@@ -17,6 +17,6 @@
 
 (false? (#(and (contains? %2 %1) (nil? (%1 %2))) :c {:a nil :b 2}))
 
-(contains? {:a nil :b 2} :a)
+(contains? {:a nil :b 2} nil)
 (contains? {nil :a 2 :b} :a)
 #(and (contains? %2 %1) (nil? (%1 %2)))

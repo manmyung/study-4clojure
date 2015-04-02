@@ -4,6 +4,9 @@
 ;;
 ;; Use M-x 4clojure-check-answers when you're done!
 
+(= __ true)
+
+;
 (= true true)
 
 ;; 4Clojure Question 3
@@ -12,6 +15,9 @@
 ;;
 ;; Use M-x 4clojure-check-answers when you're done!
 
+(= "HELLO WORLD" (__ "hello world"))
+
+;me
 (= "HELLO WORLD" (.toUpperCase "hello world"))
 
 ;clojure 에서는 이게 더 좋아보임
@@ -28,12 +34,6 @@
 
 ;리스트와 벡터는 = 에서 같다고 판단하는 구나.
 (= '(:a :b :c) (list :a :b :c) (vec '(:a :b :c)) (vector :a :b :c))
-
-(seq '(:a :b :c))
-
-(list :a :b :c)
-
-()
 
 
 ;; 4Clojure Question 11
@@ -156,7 +156,7 @@
 
 (false? (#(and (contains? %2 %1) (nil? (%1 %2))) :c {:a nil :b 2}))
 
-(contains? {:a nil :b 2} :a)
+(contains? {:a nil :b 2} nil)
 (contains? {nil :a 2 :b} :a)
 #(and (contains? %2 %1) (nil? (%1 %2)))
 
@@ -166,7 +166,7 @@
 ;;
 ;; Use M-x 4clojure-check-answers when you're done!
 
-(= '(1 5 9 13 17 21 25 29 33 37) (for [x (range 40)
+(= __ (for [x (range 40)
             :when (= 1 (rem x 4))]
         x))
 
@@ -178,6 +178,9 @@
 (= __ (for [[x y] (partition 2 (range 20))]
         (+ x y)))
 
+;me
+'(1 5 9 13 17 21 25 29 33 37)
+
 (range 40) ;=> (0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39)
 (for [x (range 40)
       :when (= 1 (rem x 4))]
@@ -186,6 +189,11 @@
 ;for에 :when :let :while 등이 사용될 수 있음.
 ;for 소스에 있는 내용 - Supported modifiers are: :let [binding-form expr ...],:while test, :when test.
 
+(for [x (range 40)
+      :when (= 1 (rem x 4))]
+  x)
+
+(iterate #(+ 4 %) 0)
 
 ;; 4Clojure Question 162
 ;;
@@ -247,6 +255,14 @@
 ;norman: for 사용법이 재밌다.[(각 요소 of %2) %1]의 요소를 갖는 리스트를 만들었음.
 #(into {} (for [key %2] [key %1]))
 (for [key [:a :b :c]] [key 0]) ;=> ([:a 0] [:b 0] [:c 0])
+
+(= (__ 0 [:a :b :c]) {:a 0 :b 0 :c 0})
+
+(fn [a b]
+  (map vector %2 (repeat %1)))
+(into {} (map vector %))
+
+(#(map vector %2 (repeat %1)) 0 [:a :b :c])
 
 ;; 4Clojure Question 2
 ;;
@@ -327,6 +343,7 @@
 
 (= #{1 2 3 4} (conj #{1 4 3} __))
 
+;;
 (conj #{1 4 3} 2)
 
 ;; 4Clojure Question 10

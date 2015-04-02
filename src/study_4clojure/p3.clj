@@ -4,6 +4,9 @@
 ;;
 ;; Use M-x 4clojure-check-answers when you're done!
 
+(= "HELLO WORLD" (__ "hello world"))
+
+;me
 (= "HELLO WORLD" (.toUpperCase "hello world"))
 
 ;clojure 에서는 이게 더 좋아보임
