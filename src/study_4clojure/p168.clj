@@ -120,6 +120,73 @@
           (check #(= %2 [(+ m %) (+ n %)]) diagonal)))
    true)
 
-(take 5 (map #(take 6 %)
-             (iterate #(drop 1 %) (iterate inc 0))
-             ))
+;me. 첫번째 버전. 코드는 복잡하지만 동일한 iter를 사용하므로 지금의 2차원을 넘어 무한 차원의 가능성을 생각할 수 있다.
+(fn k
+  ([f]
+   (k f 0 0))
+  ([f i-min j-min i-max j-max]
+   (take i-max (map #(take j-max %) (k f i-min j-min))))
+  ([f i-min j-min]
+   (let [iter (fn iter [f x] (cons x (lazy-seq (iter f (f x)))))
+         m (iter (fn [l] (map (fn [a] (assoc a 0 (inc (first a)))) l))
+                 (iter (fn [b] (assoc b 1 (inc (second b)))) [i-min j-min]))]
+     (map (fn [ijs] (map (fn [ij] (apply f ij)) ijs)) m))))
+
+;me. 두번째 버전. 더 단순. lazy-seq에 인자를 갖고 다닐 수 있다는 점을 다시 깨닫게 된다.
+(fn matrix
+  ([f]
+   (matrix f 0 0))
+  ([f i-min j-min i-max j-max]
+   (take i-max (map #(take j-max %) (matrix f i-min j-min))))
+  ([f i-min j-min]
+   (let [row (fn row [f i j]
+               (lazy-seq (cons (f i j) (lazy-seq (row f i (inc j))))))]
+     (lazy-seq (cons (row f i-min j-min) (lazy-seq (matrix f (inc i-min) j-min)))))))
+
+;psk810. 나와 비슷. lazy-seq를 2번만 사용한 점이 더 좋다. 나도 안쪽 lazy-seq는 사용할 필요 없었다.
+(fn d
+  ([c f] (c f 0 0))
+  ([c f m n] (c f m n))
+  ([c f m n s t] (take s (map #(take t %) (c f m n)))))
+
+(fn c [f m n]
+  (letfn [(r [f k n]
+             (lazy-seq (cons (apply f [k n]) (r f k (inc n)))))]
+    (lazy-seq (cons (r f m n) (c f (inc m) n)))))
+
+;silverio. 이건 나와 더 비슷.
+(letfn [(row [f i j]
+             (lazy-seq (cons (f i j) (row f i (+ j 1)))))]
+  (fn mtx
+    ([f] (mtx f 0 0))
+    ([f m n] (lazy-seq (cons (row f m n) (mtx f (+ m 1) n))))
+    ([f m n s t] (take s (map #(take t %) (mtx f m n))))))
+
+;max. 나중을 위해 적어만 둔다.
+(fn g
+  ([f]
+   (g f 0 0))
+  ([f m n]
+   (g f m n nil nil))
+  ([f m n s t]
+   ((fn r [i]
+      (lazy-seq
+        (if (= (- i m) s)
+          ()
+          (cons
+            ((fn c [j]
+               (lazy-seq
+                 (if (= (- j n) t)
+                   ()
+                   (cons
+                     (f i j)
+                     (c (inc j)))))) n)
+            (r (inc i)))))) m)))
+
+;chouser. 나중을 위해 적어만 둔다.
+(fn [r f & [m n s t]]
+  (map #(map (fn [x] (f % x)) (r n t)) (r m s)))
+(fn r [a b]
+  ({0 ()} b (lazy-cat [(or a 0)]
+                      (r (+ (or a 0) 1) (- (or b 0) 1)))))
+
