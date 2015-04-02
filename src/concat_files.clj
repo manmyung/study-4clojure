@@ -17,3 +17,4 @@
 (spit "src/elementary.clj" (concat-str (problems 3)))
 (spit "src/easy.clj" (concat-str (problems 6)))
 (spit "src/medium.clj" (concat-str (problems 9)))
+(spit "src/hard.clj" (concat-str (problems 12)))
