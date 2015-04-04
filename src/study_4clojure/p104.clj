@@ -39,3 +39,26 @@
               8 "VIII" 80 "LXXX" 800 "DCCC"
               9 "IX" 90 "XC" 900 "CM"}
              (reverse (k n 1))))))
+
+;maximental
+#(let [r {1000 "M"
+          900  "CM"
+          500  "D"
+          400  "CD"
+          100  "C"
+          90   "XC"
+          50   "L"
+          40   "XL"
+          10   "X"
+          9    "IX"
+          5    "V"
+          4    "IV"
+          1    "I"
+          0    ""}]
+  ((fn f [m [k & s] a]
+     (if s
+       (if (>= m k)
+         (f (- m k) (cons k s) (str a (r k)))
+         (f m s a))
+       a))
+    % (sort > (keys r)) ""))
