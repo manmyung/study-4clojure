@@ -34,7 +34,7 @@
                              [next-c next-s] (if (> c best-c) [c ss] [best-c best-s])]
                          (recur (rest xs) next-c next-s))))
 
-;hypirion
+;hypirion. 코드는 간편한데 2부터 n+1의 길이를 모두 살펴보니 효율이 떨어질 듯.
 (fn [coll]
   (->>
     (range 2 (inc (count coll)))
