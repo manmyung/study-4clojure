@@ -62,7 +62,7 @@
 ; graph 만드는 코드가 이해가 쉽게 잘 되어 있다. for로 돌리고 merge-with concat 모으기.
 ; chain도 모든 path를 다 만드는 것이 아니라 만족하면 true 리턴. 이 chain은 정말 내가 만들고 싶었던 코드이다.
 
-;psk810. 정말 간략하다. 굿!
+;psk810. 정말 간략하다. 굿!. silverio와 비교하면 visited를 인자로 넣은 것이 아니라 non-visited를 인자로 넣었다.
 (fn [s]
   (letfn [(ch? [s1 s2]
                (loop [[a & b :as c] (seq s1) [d & e :as g] (seq s2)]

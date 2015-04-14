@@ -326,7 +326,7 @@
 ; graph 만드는 코드가 이해가 쉽게 잘 되어 있다. for로 돌리고 merge-with concat 모으기.
 ; chain도 모든 path를 다 만드는 것이 아니라 만족하면 true 리턴. 이 chain은 정말 내가 만들고 싶었던 코드이다.
 
-;psk810. 정말 간략하다. 굿!
+;psk810. 정말 간략하다. 굿!. silverio와 비교하면 visited를 인자로 넣은 것이 아니라 non-visited를 인자로 넣었다.
 (fn [s]
   (letfn [(ch? [s1 s2]
                (loop [[a & b :as c] (seq s1) [d & e :as g] (seq s2)]
@@ -334,3 +334,24 @@
                              (or (= b e) (= b g) (= c e)))))
           (t [e s] (if (empty? s) true (some #(t % (disj s %)) (filter #(ch? e %) s))))]
     (if (some #(t % (disj s %)) s) true false)))
+
+;; 4Clojure Question 89
+;;
+;; Starting with a graph you must write a function that returns true if it is possible to make a tour of the graph in which every edge is visited exactly once.<br/><br/>The graph is represented by a vector of tuples, where each tuple represents a single edge.<br/><br/>The rules are:<br/><br/>- You can start at any node.<br/>- You must visit each edge exactly once.</br>- All edges are undirected.
+;;
+;; Use M-x 4clojure-check-answers when you're done!
+
+(= true (__ [[:a :b]]))
+
+(= false (__ [[:a :a] [:b :b]]))
+
+(= false (__ [[:a :b] [:a :b] [:a :c] [:c :a]
+               [:a :d] [:b :d] [:c :d]]))
+
+(= true (__ [[1 2] [2 3] [3 4] [4 1]]))
+
+(= true (__ [[:a :b] [:a :c] [:c :b] [:a :e]
+              [:b :e] [:a :d] [:b :d] [:c :e]
+              [:d :e] [:c :f] [:d :f]]))
+
+(= false (__ [[1 2] [2 3] [2 4] [2 5]]))
