@@ -21,7 +21,7 @@
 ## 문제 풀이 결과
 src/study_4clojure/p*.clj
 
-풀이를 Difficulty 별로 합친 것: src/elementary.clj, src/easy.clj, src/medium.clj
+위 파일들을 합쳐놓은 것: [src/elementary.clj](src/elementary.clj), [src/easy.clj](src/easy.clj), [src/medium.clj](src/medium.clj), [src/hard.clj](src/hard.clj)
 
 ## 문제 풀이 순서
-log.md
+[log.md](log.md)
