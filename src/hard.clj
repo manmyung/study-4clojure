@@ -355,3 +355,26 @@
               [:d :e] [:c :f] [:d :f]]))
 
 (= false (__ [[1 2] [2 3] [2 4] [2 5]]))
+
+;me
+(fn [a]
+  (let [rev (fn [[x y]] [y x])
+        my-disj (fn [col x]
+                  (loop [col col result []]
+                    (if (nil? col)
+                      result
+                      (let [[v & vs] col]
+                        (if (= v x)
+                          (concat result vs)
+                          (recur vs (conj result v)))))))
+        k (fn k [visited rest-set]
+            (if (empty? rest-set)
+              true
+              (some #(let [last-n (last (last visited))]
+                      (cond
+                        (= last-n (first %)) (k (conj visited %) (my-disj rest-set %))
+                        (= last-n (last %)) (k (conj visited (rev %)) (my-disj rest-set %))))
+                    rest-set)))]
+    (true? (some #(or (k (conj [] %) (my-disj a %))
+                      (k (conj [] (rev %)) (my-disj a %)))
+                 a))))
