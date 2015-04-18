@@ -19,7 +19,7 @@
 
 (= false (__ [[1 2] [2 3] [2 4] [2 5]]))
 
-;me
+;me. 좀 복잡하게 코드가 나왔다. 그 이유는 visited에 edge를 넣어서이다. node를 넣는 방식으로 했으면 그냥 넣고 뒤집어 넣는 두가지 경우가 필요없다. 밑의 daowen이 그것을 보여준다. 그리고 my-desj는 좀더 간단한 방법이 있을 것 같은데 daowen이 자바 유틸을 사용한 것 이외에 다른 방법은 못찾았다.
 (fn [a]
   (let [rev (fn [[x y]] [y x])
         my-disj (fn [col x]
@@ -41,3 +41,34 @@
     (true? (some #(or (k (conj [] %) (my-disj a %))
                       (k (conj [] (rev %)) (my-disj a %)))
                  a))))
+
+;daowen
+(fn tourable? [es]
+  (let [edges (for [[a b] es] (assoc {} a b b a))
+        del #(doto (java.util.LinkedList. %) (.remove %2))
+        t? (fn t? [v es]
+             (or (empty? es)
+                 (some #(t? (% v) (del es %)) (filter #(% v) es))))]
+    (boolean (some #(t? % edges) (-> es flatten distinct)))))
+
+;psk810
+(fn [s]
+  (letfn [(find-relations [n ts] (filter (fn [x] (some #(= n %) x)) ts))
+          (omit [n s] (concat (take n s) (drop (inc n) s)))
+          (omit-item [e s] (some (fn [[n v]] (if (= v e) (omit n s)))  (map-indexed #(vector % %2) s)))
+          (other [x [a b]] (if (= b x) a b))
+          (make-graph [n s] (if (empty? s) true
+                                           (some #(make-graph (other n %) (omit-item % s)) (find-relations n s))))]
+    (if (nil? (some #(make-graph (second %) (omit-item % s)) s)) false true)))
+
+;jafingerhut. Eulerian Path 이론을 이용한 답.
+(fn [edges]
+  (and (= 1 (count (reduce (fn [c [u v]]
+                             (let [s (or (first (filter #(% u) c)) #{u})
+                                   t (or (first (filter #(% v) c)) #{v})]
+                               (conj (disj c s t) (clojure.set/union s t))))
+                           #{} edges)))
+       (let [num-odd-degree (count (filter #(odd? (count (val %)))
+                                           (group-by identity (apply concat edges))))]
+         (number? (#{0 2} num-odd-degree)))))
+
