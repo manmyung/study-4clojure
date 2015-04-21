@@ -51,6 +51,7 @@
                  (some #(t? (% v) (del es %)) (filter #(% v) es))))]
     (boolean (some #(t? % edges) (-> es flatten distinct)))))
 
+(#(doto (java.util.LinkedList. %) (.remove %2)) [1 2 3] 2)
 ;psk810
 (fn [s]
   (letfn [(find-relations [n ts] (filter (fn [x] (some #(= n %) x)) ts))
