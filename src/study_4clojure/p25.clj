@@ -14,3 +14,9 @@
 
 (filter odd? #{1 2 3 4 5})
 ;이것도 풀이가 거의 동일
+
+(async/go-loop []
+               (println "s"))
+
+(ef/at "#button1" (ev/listen :click
+                             #()

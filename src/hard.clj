@@ -469,3 +469,172 @@
       (first s) (disj s (first s)))))
 
 ;me의 (rest s) 대신 여기서는 (disj s (first s))를 사용했기 때문에 내부에서 다시 set을 사용할 필요가 없었다.
+
+;; 4Clojure Question 106
+;;
+;; Given a pair of numbers, the start and end point, find a path between the two using only three possible operations:<ul>
+;;
+;; <li>double</li>
+;;
+;; <li>halve (odd numbers cannot be halved)</li>
+;;
+;; <li>add 2</li></ul>
+;;
+;; 
+;;
+;; Find the shortest path through the "maze". Because there are multiple shortest paths, you must return the length of the shortest path, not the path itself.
+;;
+;; Use M-x 4clojure-check-answers when you're done!
+
+(= 1 (__ 1 1))  ; 1
+
+(= 3 (__ 3 12)) ; 3 6 12
+
+(= 3 (__ 12 3)) ; 12 6 3
+
+(= 3 (__ 5 9))  ; 5 7 9
+
+(= 9 (__ 9 2))  ; 9 18 20 10 12 6 8 4 2
+
+(= 5 (__ 9 12)) ; 9 11 22 24 12
+
+(
+(fn bfs [reminder]
+  (let [f (peek reminder)
+        next [(* 2 f) (+ 2 f)]]
+    (println f)
+    (if (= f 24)
+      nil
+      (cons f (bfs
+                (into (pop reminder) next))))))
+  (conj (clojure.lang.PersistentQueue/EMPTY) 3))
+
+(cons 2 3)
+
+(defn seq-graph-bfs [g s]
+  ((fn rec-bfs [explored frontier]
+     (println [explored frontier])
+     (lazy-seq
+       (if (empty? frontier)
+         nil
+         (let [v (peek frontier)
+               neighbors (g v)]
+           (cons v (rec-bfs
+                     (into explored neighbors)
+                     (into (pop frontier) (remove explored neighbors))))))))
+    #{s} (conj (clojure.lang.PersistentQueue/EMPTY) s)))
+(def G {
+        :1 [:2 :3],
+        :2 [:4],
+        :3 [:4],
+        :4 [] })
+(seq-graph-bfs G :1)
+
+(peek [1 2 3 4])
+
+(peek (conj (conj (clojure.lang.PersistentQueue/EMPTY) 1) 2))
+
+(lazy-seq nil)
+
+
+;; 4Clojure Question 94
+;;
+;; The <a href="http://en.wikipedia.org/wiki/Conway's_Game_of_Life">game of life</a> is a cellular automaton devised by mathematician John Conway. <br/><br/>The 'board' consists of both live (#) and dead ( ) cells. Each cell interacts with its eight neighbours (horizontal, vertical, diagonal), and its next state is dependent on the following rules:<br/><br/>1) Any live cell with fewer than two live neighbours dies, as if caused by under-population.<br/>2) Any live cell with two or three live neighbours lives on to the next generation.<br/>3) Any live cell with more than three live neighbours dies, as if by overcrowding.<br/>4) Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.<br/><br/>Write a function that accepts a board, and returns a board representing the next generation of cells.
+;;
+;; Use M-x 4clojure-check-answers when you're done!
+
+(= (__ ["      "  
+        " ##   "
+        " ##   "
+        "   ## "
+        "   ## "
+        "      "])
+   ["      "  
+    " ##   "
+    " #    "
+    "    # "
+    "   ## "
+    "      "])
+
+(= (__ ["     "
+        "     "
+        " ### "
+        "     "
+        "     "])
+   ["     "
+    "  #  "
+    "  #  "
+    "  #  "
+    "     "])
+
+(= (__ ["      "
+        "      "
+        "  ### "
+        " ###  "
+        "      "
+        "      "])
+   ["      "
+    "   #  "
+    " #  # "
+    " #  # "
+    "  #   "
+    "      "])
+
+;me
+(fn [b]
+  (let
+    [is-live? (fn [cs i j]
+                (-> cs
+                    (get i)
+                    (get j)
+                    (= \#)))
+     dij [[-1 -1] [0 -1] [1 -1] [-1 0] [1 0] [-1 1] [0 1] [1 1]]
+     next-live? (fn [i j]
+                  (let [c (count (filter
+                                   (fn [[di dj]] (is-live? b (+ di i) (+ dj j)))
+                                   dij))
+                        l (is-live? b i j)]
+                    (or (and l (<= 2 c 3))
+                        (and (not l) (= c 3)))))
+     next-cell (fn [i j]
+                 (if (next-live? i j) \# \space))]
+    (for [i (range (count b))]
+      (apply str
+             (for [j (range (count (get b i)))]
+               (next-cell i j))))))
+
+;chouser
+#(let [r (range (count %))
+       v [-1 0 1]
+       a \#]
+  (for [y r]
+    (apply str (for [x r c [(count
+                              (for [j v
+                                    k v
+                                    :when (= a (get-in % [(+ y j) (+ x k)]))]
+                                1))]]
+                 (if (or (= c 3) (and (= c 4) (= a (get-in % [y x]))))
+                   a " " )))))
+;for[j v k v ...]를 보면 다차원 순회해서 \#의 갯수를 구하는 부분이 알아둘만 하다.
+;get-in도 나처럼 두번 get을 쓰는 것보다 좋다.
+
+;daowen
+(fn next-gen [grid]
+  (let [cell? (->> grid
+                   (map-indexed (fn [i r]
+                                  (map-indexed (fn [j c]
+                                                 (if (= \# c) [i j] nil)) r)))
+                   (apply concat)
+                   (set))
+        ns '([-1 -1] [-1 0] [-1 1] [0 -1] [0 1] [1 -1] [1 0] [1 1])
+        n-count (fn [r c]
+                  (count (filter cell? (map (fn [[x y]]
+                                              [(+ r x) (+ c y)]) ns))))
+        live-map (for [r (range (count grid))]
+                   (for [c (range (count (first grid)))]
+                     (let [n (n-count r c)]
+                       (or (= n 3) (and (cell? [r c]) (= n 2))))))]
+    (map (fn [row] (apply str (map #(if % \# " " ) row))) live-map)))
+;map-indexed도 있었군.
+;\#가 있는 인덱스를 set으로 전처리해두어서 효율적. 이거 좋다.
+;live-map으로 true, false 가 요소인 grid를 만든 후, 문자열로 바꿨다. 이것도 뷰와 처리를 분리하니 좋다.
