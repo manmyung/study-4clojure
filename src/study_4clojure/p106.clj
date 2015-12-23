@@ -26,40 +26,51 @@
 
 (= 5 (__ 9 12)) ; 9 11 22 24 12
 
-(
-(fn bfs [reminder]
-  (let [f (peek reminder)
-        next [(* 2 f) (+ 2 f)]]
-    (println f)
-    (if (= f 24)
-      nil
-      (cons f (bfs
-                (into (pop reminder) next))))))
-  (conj (clojure.lang.PersistentQueue/EMPTY) 3))
+;me
+(fn [s e]
+  (let [expand (fn [n]
+                 (into [(* n 2) (+ n 2)] (when (= (rem n 2) 0) [(/ n 2)])))
+        search (fn search [paths]
+                 (let [[n l] (first paths)]
+                   (if (= n e)
+                     l
+                     (search (into (vec (rest paths))
+                              (map #(vec [% (inc l)]) (expand n)))))))]
+    (search [[s 1]])))
 
-(cons 2 3)
+;daowen
+(fn n-maze [start end]
+  (let [double #(* 2 %)
+        halve  #(if (odd? %) nil `(~(quot % 2)))
+        add2   #(+ 2 %)
+        ops    #(list* (double %) (add2 %) (halve %))]
+    (loop [xs [start], i 1]
+      (if (some #(== % end) xs) i
+                                (recur (mapcat ops xs) (inc i))))))
+; odd? 기억하자.
+;(list* 3 5 '(2 4)) ;=> (3 5 2 4). list*는 마지막이 sequence 여야 함. list*를 사용한 이유는 내가 nil을 추가하고 싶지 않아서. 내가 into를 사용한 이유와 같음.
+; mapcat으로 하면 이전 xs의 요소는 안 들어가고 그게 펼쳐진 list만 들어가는 구나. 한번에 한 depth씩 펼치기. 한 depth는 모두 펼쳐야 해서 약간 비효율적이긴 하지만 코드 단순하네.
 
-(defn seq-graph-bfs [g s]
-  ((fn rec-bfs [explored frontier]
-     (println [explored frontier])
-     (lazy-seq
-       (if (empty? frontier)
-         nil
-         (let [v (peek frontier)
-               neighbors (g v)]
-           (cons v (rec-bfs
-                     (into explored neighbors)
-                     (into (pop frontier) (remove explored neighbors))))))))
-    #{s} (conj (clojure.lang.PersistentQueue/EMPTY) s)))
-(def G {
-        :1 [:2 :3],
-        :2 [:4],
-        :3 [:4],
-        :4 [] })
-(seq-graph-bfs G :1)
+;max
+(fn [n m]
+  (loop [p 1 s #{n}]
+    (if (s m)
+      p
+      (recur (+ p 1)
+             (reduce #(conj %
+                            (if (even? %2) (/ %2 2) n)
+                            (* %2 2)
+                            (+ %2 2))
+                     s
+                     s)))))
+;그렇지. 한 depth씩 펼친다면 some을 안 써도 되니 set이 더 편하겠다.
 
-(peek [1 2 3 4])
-
-(peek (conj (conj (clojure.lang.PersistentQueue/EMPTY) 1) 2))
-
-(lazy-seq nil)
+;chouser
+#((fn r [i w]
+(if ((set w) %2)
+  i
+  (r (+ i 1)
+     (for [i w f [* + /]
+           :when (or (even? i) (not= f /))]
+       (f i 2))))) 1 [%])
+;이 코드가 가장 깔끔하다. recursive로 구현하고, for에 연산자 들어가는 것도 좋다.
