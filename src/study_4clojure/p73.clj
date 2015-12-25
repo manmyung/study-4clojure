@@ -62,4 +62,8 @@
         lines (concat rows cols diags)
         line-sets (map set lines)]
     (first (some #{#{:x} #{:o}} line-sets))))
+(apply map vector
+       [[:x :e :o]
+        [:x :x :e]
+        [:o :x :o]])
 
