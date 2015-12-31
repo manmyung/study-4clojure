@@ -79,6 +79,7 @@
                 true
                 (recur (rest m))))))]
     (true? (some #(legal? (line-map %)) lines))))
+;내 답이 복잡한 이유는 \#으로 split하는 것을 생각하지 못했기 때문이었다
 
 ;daowen
 (fn fits? [word board]
