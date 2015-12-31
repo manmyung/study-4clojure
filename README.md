@@ -1,6 +1,12 @@
 # study-4clojure
 
-## 문제 가져오기
+## 문제 풀이 순서
+[log.md](log.md)
+
+## 문제 풀이 결과
+[src/study_4clojure](src/study_4clojure)
+
+## 쉽게 문제 가져오는 방법
 4clojure.el(https://github.com/losingkeys/4clojure.el) 과 밑의 스크립트를 이용하면 4clojure 사이트에서 일일이 복사해 가져오는 것보다 편리하다.
 - 설치: Emacs에 4clojure.el 설치한 후, 밑의 스크립트에서 'load-path, file-path, log-path 를 각자에 맞게 수정하여 .emacs에 추가
 - 사용: Emacs에서 `M-x 4clojure-save`
@@ -18,10 +24,3 @@
     ))
 ```
 
-## 문제 풀이 결과
-src/study_4clojure/p*.clj
-
-위 파일들을 합쳐놓은 것: [src/elementary.clj](src/elementary.clj), [src/easy.clj](src/easy.clj), [src/medium.clj](src/medium.clj), [src/hard.clj](src/hard.clj)
-
-## 문제 풀이 순서
-[log.md](log.md)
